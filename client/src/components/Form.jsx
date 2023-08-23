@@ -1,25 +1,28 @@
-import { useState } from "react";
+const Form = ({ setJobs, language }) => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const name = event.target.job.value;
 
-const Form = ({onSaveForm}) => {
-  const [job, setJob] = useState('');
-  const [isChecked, setIsChecked] = useState(false);
+    setJobs((jobs) => [
+      ...jobs,
+      {
+        id: Date.now(),
+        name: name,
+        isDone: false
+      }
+    ]);
 
-  const onSubmitForm = (event) => {
-		event.preventDefault()
+    event.target.reset();
+  };
 
-		onSaveForm({
-			job,
-			isChecked,
-		})
-
-		setJob('');
-		setIsChecked(false);
-	}
+  const placeholderText =
+    language === "en" ? "Enter task ..." : "Nhập công việc ...";
+  const submitButtonText = language === "en" ? "Submit" : "Gửi";
 
   return (
-    <form className="form" onSubmitForm={onSubmitForm}>
-      <input placeholder="Enter task ..." value={job} onChange={e => setJob(e.target.value)}/>
-      <button>Submit</button>
+    <form className="form" onSubmit={handleSubmit}>
+      <input name="job" type="text" placeholder={placeholderText} />
+      <input type="submit" value={submitButtonText} />
     </form>
   );
 };
