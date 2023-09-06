@@ -1,6 +1,10 @@
 const mongoose = require("mongoose")
 
 const inventory = mongoose.Schema({
+    _id: {
+        type: mongoose.Schema.Types.Number,
+        required: true
+    },
     sku: {
         type: String,
         required: true
@@ -12,7 +16,8 @@ const inventory = mongoose.Schema({
     instock: {
         type: Number,
         required: true
-    }
+    },
+    orders: [{ type: mongoose.Schema.Types.Number, ref: "order" }]
 },{
     timestamps: true
 })
