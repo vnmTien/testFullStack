@@ -5,49 +5,52 @@ import Footer from "../components/Footer.jsx";
 import { useState, useEffect } from "react";
 
 const Home = () => {
-  const [jobs, setJobs] = useState([]);
-  const [displayJobsOnly, setDisplayJobsOnly] = useState(false);
-  const [language, setLanguage] = useState("en");
+    const storedJobs = JSON.parse(localStorage.getItem("jobs"));
 
-  const handleLanguageChange = (newLanguage) => {
-    setLanguage(newLanguage);
-  };
+    const [jobs, setJobs] = useState(storedJobs);
+    const [displayJobsOnly, setDisplayJobsOnly] = useState(false);
+    const [language, setLanguage] = useState("en");
 
-  useEffect(() => {
-    const storedJobs = localStorage.getItem("jobs");
-    if (storedJobs) {
-      setJobs(JSON.parse(storedJobs));
-    }
-  }, []);
+    const handleLanguageChange = (newLanguage) => {
+        setLanguage(newLanguage);
+    };
 
-  useEffect(() => {
-    localStorage.setItem("jobs", JSON.stringify(jobs));
-  }, [jobs]);
+    //   useEffect(() => {
+    //     const storedJobs = localStorage.getItem("jobs");
+    //     if (storedJobs) {
+    //       setJobs(JSON.parse(storedJobs));
+    //     }
+    //   }, []);
 
-  return (
-    <div className="App">
-      <div className="container">
-        <TodoListHeader
-          jobs={jobs}
-          displayJobsOnly={displayJobsOnly}
-          setDisplayJobsOnly={setDisplayJobsOnly}
-          language={language}
-          handleLanguageChange={handleLanguageChange}
-        />
-        <TodoList
-          jobs={jobs}
-          setJobs={setJobs}
-          displayJobsOnly={displayJobsOnly}
-        />
-        <Form
-          setJobs={setJobs}
-          handleLanguageChange={handleLanguageChange}
-          language={language}
-        />
-      </div>
-      <Footer language={language} handleLanguageChange={handleLanguageChange} />
-    </div>
-  );
+    useEffect(() => {
+        const jsonJobs = JSON.stringify(jobs);
+        localStorage.setItem("jobs", jsonJobs);
+    }, [jobs]);
+
+    return (
+        <div className="App">
+            <div className="container">
+                <TodoListHeader
+                    jobs={jobs}
+                    displayJobsOnly={displayJobsOnly}
+                    setDisplayJobsOnly={setDisplayJobsOnly}
+                    language={language}
+                    handleLanguageChange={handleLanguageChange}
+                />
+                <TodoList
+                    jobs={jobs}
+                    setJobs={setJobs}
+                    displayJobsOnly={displayJobsOnly}
+                />
+                <Form
+                    setJobs={setJobs}
+                    handleLanguageChange={handleLanguageChange}
+                    language={language}
+                />
+            </div>
+            <Footer language={language} handleLanguageChange={handleLanguageChange} />
+        </div>
+    );
 };
 
 export default Home;
